@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://xml.datev.de/DD/DE/bedi/tps/document/v060" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:simpleType name="p16">
+    <xsd:annotation><xsd:documentation>Versionsnummer der document-Schemadatei; aktuell 6.0</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:maxLength value="6"/><xsd:pattern value="6.0"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p17">
+    <xsd:annotation><xsd:documentation>Name Mandant (max. 36 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="36"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p18">
+    <xsd:annotation><xsd:documentation>Rechnungstyp: Incoming = Rechnungseingang, Outgoing = Rechnungsausgang</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:maxLength value="8"/><xsd:pattern value="Incoming|Outgoing"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p19">
+    <xsd:annotation><xsd:documentation>Name der Eigenschaft einer Rechnung; Wert: InvoiceType</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:maxLength value="15"/><xsd:pattern value="InvoiceType"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p20">
+    <xsd:annotation><xsd:documentation>Dateiname im Document (max. 255 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="255"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p25">
+    <xsd:annotation><xsd:documentation>Dokumententyp: 1 = Rechnungseingang, 2 = Rechnungsausgang</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:byte"><xsd:pattern value="1|2"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p26">
+    <xsd:annotation><xsd:documentation>ProzessID: 1 = Buchungsrelevant (Posteingang), 2 = Archivierungsrelevant</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:byte"><xsd:pattern value="1|2"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p27">
+    <xsd:annotation><xsd:documentation>Hierarchieebene (1-99)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:byte"><xsd:totalDigits value="2"/><xsd:minInclusive value="1"/><xsd:maxInclusive value="99"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p28">
+    <xsd:annotation><xsd:documentation>Periode (YYYY-MM)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:gYearMonth"><xsd:minInclusive value="1753-01"/><xsd:maxInclusive value="9999-12"/><xsd:pattern value="[^:Z]*"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p32">
+    <xsd:annotation><xsd:documentation>KassenInformationen: 1=Periode, 2=Kontonummer, 3=Name</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:unsignedByte"><xsd:pattern value="1|2|3"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10008">
+    <xsd:annotation><xsd:documentation>Bezeichnung 030 (max. 30 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="30"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10009">
+    <xsd:annotation><xsd:documentation>Bezeichnung 040 (max. 40 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="40"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10037">
+    <xsd:annotation><xsd:documentation>Global Unique Identifier (UUID-Format)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:maxLength value="36"/><xsd:pattern value="[0-9A-Fa-f]{8,8}\-[0-9A-Fa-f]{4,4}\-[0-9A-Fa-f]{4,4}\-[0-9A-Fa-f]{4,4}\-[0-9A-Fa-f]{12,12}"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10039">
+    <xsd:annotation><xsd:documentation>Kontonummer (1-999999999)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:unsignedInt"><xsd:totalDigits value="9"/><xsd:minInclusive value="1"/><xsd:maxInclusive value="999999999"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10048">
+    <xsd:annotation><xsd:documentation>Datum und Uhrzeit yyyy.MM.dd HH:mm:ss</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:dateTime"><xsd:minInclusive value="0001-01-01T00:00:00"/><xsd:maxInclusive value="9999-12-31T23:59:59"/><xsd:pattern value=".+T[^Z\+\-]+"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10049">
+    <xsd:annotation><xsd:documentation>Beraternummer (1000-9999999)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:unsignedInt"><xsd:totalDigits value="7"/><xsd:minInclusive value="1000"/><xsd:maxInclusive value="9999999"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10050">
+    <xsd:annotation><xsd:documentation>Mandantennummer (0-99999)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:unsignedInt"><xsd:totalDigits value="5"/><xsd:minInclusive value="0"/><xsd:maxInclusive value="99999"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10051">
+    <xsd:annotation><xsd:documentation>Bemerkung 255 (max. 255 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="255"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="p10052">
+    <xsd:annotation><xsd:documentation>Bemerkung 040 (max. 40 Zeichen)</xsd:documentation></xsd:annotation>
+    <xsd:restriction base="xsd:string"><xsd:minLength value="1"/><xsd:maxLength value="40"/></xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="noTYPE">
+    <xsd:restriction base="xsd:string"/>
+</xsd:simpleType>
+</xsd:schema>

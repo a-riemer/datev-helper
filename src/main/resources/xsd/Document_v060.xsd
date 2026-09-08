@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DATEV XML-Schnittstelle online – Dokumentenverwaltungsdatei (document.xml)
+  Schema Version 6.0
+  Quelle: DATEV Developer Portal / https://github.com/ameax/datev-xml
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xml.datev.de/bedi/tps/document/v06.0"
+            xmlns:de="http://xml.datev.de/DD/DE/bedi/tps/document/v060"
+            targetNamespace="http://xml.datev.de/bedi/tps/document/v06.0"
+            elementFormDefault="qualified">
+
+    <xsd:import namespace="http://xml.datev.de/DD/DE/bedi/tps/document/v060"
+                schemaLocation="Document_types_v060.xsd"/>
+
+    <!-- Root-Element -->
+    <xsd:element name="archive" type="archive"/>
+
+    <xsd:complexType name="archive">
+        <xsd:sequence>
+            <xsd:element name="header" type="header" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="content" type="content" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="version" type="de:p16" use="required"/>
+        <!-- GUID des ZIP-Archivs – dient der Identifikation; entspricht dem BEDI-Hash im Beleglink der CSV -->
+        <xsd:attribute name="guid" type="de:p10037"/>
+        <xsd:attribute name="generatingSystem" type="de:p10009" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="header">
+        <xsd:sequence>
+            <xsd:element name="date" type="de:p10048" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="description" type="de:p10051" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="consultantNumber" type="de:p10049" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="clientNumber" type="de:p10050" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="clientName" type="de:p17" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="repository" type="repository" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="content">
+        <!-- max. 4999 Dokumente pro ZIP/document.xml -->
+        <xsd:sequence>
+            <xsd:element name="document" type="document" minOccurs="1" maxOccurs="4999"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="document">
+        <xsd:sequence>
+            <xsd:element name="description" type="de:p10052" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="keywords" type="de:p10051" minOccurs="0" maxOccurs="1"/>
+            <!-- max. 50 Dateien pro Dokument (werden zu einem Dokument "geheftet") -->
+            <xsd:element name="extension" type="extension" minOccurs="1" maxOccurs="50"/>
+            <xsd:element name="repository" type="repository" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="documentintern" type="documentintern" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <!-- Verknüpfungs-GUID: erscheint im CSV-Feld Beleglink als "BEDI{guid}" -->
+        <xsd:attribute name="guid" type="de:p10037" use="optional"/>
+        <!-- 1 = Rechnungseingang, 2 = Rechnungsausgang -->
+        <xsd:attribute name="type" type="de:p25"/>
+        <!-- 1 = Buchungsrelevant (Posteingang), 2 = Archivierungsrelevant -->
+        <xsd:attribute name="processID" type="de:p26"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension" abstract="true"/>
+
+    <xsd:complexType name="File">
+        <xsd:complexContent>
+            <xsd:extension base="extension">
+                <!-- Name der Belegbild-Datei im ZIP-Archiv -->
+                <xsd:attribute name="name" type="de:p20" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Invoice">
+        <xsd:complexContent>
+            <xsd:extension base="extension">
+                <xsd:sequence>
+                    <xsd:element name="property" minOccurs="1" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:attribute name="key" type="de:p19" use="required"/>
+                            <xsd:attribute name="value" type="de:p18" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="datafile" type="de:p20" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="accountsPayableLedger">
+        <xsd:complexContent>
+            <xsd:extension base="extension">
+                <xsd:sequence>
+                    <xsd:element name="property" minOccurs="1" maxOccurs="2">
+                        <xsd:complexType>
+                            <xsd:attribute name="key" type="de:p32" use="required"/>
+                            <xsd:attribute name="value" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="datafile" type="de:p20" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="accountsReceivableLedger">
+        <xsd:complexContent>
+            <xsd:extension base="extension">
+                <xsd:sequence>
+                    <xsd:element name="property" minOccurs="1" maxOccurs="2">
+                        <xsd:complexType>
+                            <xsd:attribute name="key" type="de:p32" use="required"/>
+                            <xsd:attribute name="value" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="datafile" type="de:p20" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="SEPAFile">
+        <xsd:complexContent>
+            <xsd:extension base="extension">
+                <xsd:attribute name="name" type="de:p20" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="repository">
+        <!-- id=1: Kategorie, id=2: Ordner, id=3: Register -->
+        <xsd:sequence>
+            <xsd:element name="level" type="level" minOccurs="1" maxOccurs="3"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="level">
+        <xsd:attribute name="id" type="de:p27" use="required"/>
+        <xsd:attribute name="name" type="de:p10008" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="documentintern">
+        <xsd:sequence>
+            <xsd:element name="property">
+                <xsd:complexType>
+                    <xsd:attribute name="key" type="de:p20" use="required"/>
+                    <xsd:attribute name="value" type="de:p20" use="required"/>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
